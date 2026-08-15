@@ -2,13 +2,28 @@
 
 This is a small Django project that changes a long web address into a short link. It also counts how many times each short link is opened.
 
-## Start the project (Windows)
+## Run the full project with CMD (Windows)
 
 1. Install Python 3 if it is not already installed.
-2. Double-click `run_project.bat`.
-3. Wait for the setup to finish, then open http://127.0.0.1:8000/ in your browser.
+2. Open **Command Prompt** in this project folder.
+3. Run this command:
 
-The first time it runs, the batch file automatically:
+```cmd
+run_project.bat
+```
+
+If Command Prompt is open in a different folder, first go to the project folder:
+
+```cmd
+cd /d "C:\Users\abc\Desktop\Learning\projects\url"
+run_project.bat
+```
+
+4. Wait for the server to start, then open http://127.0.0.1:8000/ in your browser.
+
+You can also start the project by double-clicking `run_project.bat`.
+
+`run_project.bat` runs the full setup automatically:
 
 - creates a `.venv` virtual environment;
 - activates the environment;
