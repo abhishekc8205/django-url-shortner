@@ -9,14 +9,14 @@ This is a small Django project that changes a long web address into a short link
 3. Run this command:
 
 ```cmd
-run_project.bat
+.\run_project.bat
 ```
 
 If Command Prompt is open in a different folder, first go to the project folder:
 
 ```cmd
 cd /d "C:\Users\abc\Desktop\Learning\projects\url"
-run_project.bat
+.\run_project.bat
 ```
 
 4. Wait for the server to start, then open http://127.0.0.1:8000/ in your browser.
