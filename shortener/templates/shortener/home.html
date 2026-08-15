@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>URL Shortener</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 680px; margin: 8rem auto; padding: 0 1rem; color: #1f2937; }
+    h1 { margin-bottom: .25rem; } p { color: #4b5563; }
+    form { display: flex; gap: .5rem; margin-top: 2rem; }
+    input { flex: 1; padding: .8rem; border: 1px solid #cbd5e1; border-radius: .4rem; font-size: 1rem; }
+    button { padding: .8rem 1.2rem; background: #2563eb; border: 0; border-radius: .4rem; color: white; font-size: 1rem; cursor: pointer; }
+    #result { margin-top: 1.5rem; padding: 1rem; background: #eff6ff; border-radius: .4rem; display: none; }
+    #error { color: #b91c1c; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>URL Shortener</h1>
+  <p>Paste a long URL to create a short link and track its clicks.</p>
+  <form id="shorten-form">
+    <input id="url" type="url" placeholder="https://example.com/long-url" required>
+    <button type="submit">Shorten</button>
+  </form>
+  <p id="error"></p>
+  <section id="result">
+    Your short link: <a id="short-link" target="_blank" rel="noopener"></a><br>
+    <small>Analytics: <a id="analytics-link" target="_blank" rel="noopener">view click data</a></small>
+  </section>
+  <script>
+    const form = document.querySelector('#shorten-form');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const result = document.querySelector('#result');
+      const error = document.querySelector('#error');
+      error.textContent = '';
+      result.style.display = 'none';
+      try {
+        const response = await fetch('/api/links/', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({original_url: document.querySelector('#url').value})
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.original_url?.[0] || 'Could not shorten this URL.');
+        const shortLink = document.querySelector('#short-link');
+        shortLink.href = data.short_url;
+        shortLink.textContent = data.short_url;
+        const analyticsLink = document.querySelector('#analytics-link');
+        analyticsLink.href = `/api/links/${data.code}/analytics/`;
+        result.style.display = 'block';
+      } catch (problem) {
+        error.textContent = problem.message;
+      }
+    });
+  </script>
+</body>
+</html>
